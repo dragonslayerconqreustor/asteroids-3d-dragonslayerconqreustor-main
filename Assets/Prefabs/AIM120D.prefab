@@ -64,6 +64,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: AIM120D
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: ff51c04d4e77d564c8709741a45127e7, type: 3}
+      propertyPath: m_TagString
+      value: Bullet
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

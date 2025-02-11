@@ -21,34 +21,27 @@ public class PowerUps : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("triggered");
         if (other.CompareTag("Player"))
         {
             originalShip = other.gameObject;
-
             ActivatePowerup();
         }
     }
+
     private void Start()
     {
         originalShip = FindFirstObjectByType<SpaceShip>().gameObject;
         audioSource = GetComponent<AudioSource>();
-       
     }
 
     private void Update()
     {
         if (isPoweredUp)
         {
-           
             float remainingTime = powerupEndTime - Time.time;
             if (remainingTime <= 0)
             {
                 RevertShip();
-            }
-            else if (remainingTime <= 3f)
-            {
-                
             }
         }
     }
@@ -56,32 +49,35 @@ public class PowerUps : MonoBehaviour
     private void ActivatePowerup()
     {
         Debug.Log("Activating power-up!");
-        Vector3 currentPosition = transform.position;
-        Quaternion currentRotation = transform.rotation;
-        Rigidbody currentRb = GetComponent<Rigidbody>();
-        Vector3 currentVelocity = currentRb ? currentRb.linearVelocity : Vector3.zero;
 
-      
+        // Store the original ship's position and rotation
+        Vector3 shipPosition = originalShip.transform.position;
+        Quaternion shipRotation = originalShip.transform.rotation;
+
+        // Get the original ship's velocity
+        Rigidbody originalRb = originalShip.GetComponent<Rigidbody>();
+        Vector3 currentVelocity = originalRb ? originalRb.linearVelocity : Vector3.zero;
+
+        // Deactivate the original ship
         originalShip.SetActive(false);
-        
-      
-        currentShip = Instantiate(transformedShipPrefab, currentPosition, currentRotation);
 
-     
+        // Spawn the transformed ship at the original ship's position
+        currentShip = Instantiate(transformedShipPrefab, shipPosition, shipRotation);
+
+        // Transfer velocity to the new ship
         Rigidbody newRb = currentShip.GetComponent<Rigidbody>();
-        if (newRb && currentRb)
+        if (newRb && originalRb)
         {
             newRb.linearVelocity = currentVelocity;
         }
 
-   
         isPoweredUp = true;
         powerupEndTime = Time.time + powerupDuration;
         cooldownEndTime = Time.time + cooldownTime;
 
         if (transformEffect != null)
         {
-            Instantiate(transformEffect, transform.position, Quaternion.identity);
+            Instantiate(transformEffect, shipPosition, Quaternion.identity);
         }
 
         if (audioSource && transformSound)
@@ -92,19 +88,34 @@ public class PowerUps : MonoBehaviour
 
     private void RevertShip()
     {
-        
         if (currentShip != null)
         {
+            // Store the transformed ship's position and rotation
+            Vector3 transformedPosition = currentShip.transform.position;
+            Quaternion transformedRotation = currentShip.transform.rotation;
+
+            // Get the transformed ship's velocity
+            Rigidbody transformedRb = currentShip.GetComponent<Rigidbody>();
+            Vector3 currentVelocity = transformedRb ? transformedRb.linearVelocity : Vector3.zero;
+
+            // Destroy the transformed ship
             Destroy(currentShip);
+
+            // Reactivate the original ship at the transformed ship's position
+            originalShip.transform.position = transformedPosition;
+            originalShip.transform.rotation = transformedRotation;
+            originalShip.SetActive(true);
+
+            // Transfer velocity back to the original ship
+            Rigidbody originalRb = originalShip.GetComponent<Rigidbody>();
+            if (originalRb && transformedRb)
+            {
+                originalRb.linearVelocity = currentVelocity;
+            }
         }
 
-       
-        originalShip.SetActive(true);
-
         isPoweredUp = false;
-    
 
-       
         if (audioSource && revertSound)
         {
             audioSource.PlayOneShot(revertSound);
