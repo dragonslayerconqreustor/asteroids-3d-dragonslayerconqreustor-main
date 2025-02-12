@@ -8,10 +8,10 @@ public class AsteroidSpawner : MonoBehaviour
     [SerializeField] private float spawnHeight = 0f;
 
     // Define exact game boundaries
-    private const float MIN_X = -41f;
-    private const float MAX_X = 45f;
-    private const float MIN_Z = -25f;
-    private const float MAX_Z = 23f;
+    private const float MIN_X = -20f;
+    private const float MAX_X = 20f;
+    private const float MIN_Z = -15f;
+    private const float MAX_Z = 13f;
 
     private float nextSpawnTime;
 

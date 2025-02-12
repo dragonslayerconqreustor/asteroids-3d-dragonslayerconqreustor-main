@@ -66,7 +66,11 @@ public class Asteroid : MonoBehaviour
     {
         if (destructionEffectPrefab != null)
         {
-            Instantiate(destructionEffectPrefab, transform.position, Quaternion.identity);
+            ParticleSystem effect = Instantiate(destructionEffectPrefab, transform.position, Quaternion.identity)
+                .GetComponent<ParticleSystem>();
+
+            // Destroy the effect after it's finished playing
+            Destroy(effect.gameObject, effect.main.duration + effect.main.startLifetime.constantMax);
         }
 
         if (destructionSound != null)

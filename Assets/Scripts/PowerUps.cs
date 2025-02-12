@@ -14,6 +14,7 @@ public class PowerUps : MonoBehaviour
 
     private GameObject originalShip;
     private GameObject currentShip;
+
     private bool isPoweredUp = false;
     private float powerupEndTime = 0f;
     private float cooldownEndTime = 0f;
@@ -25,6 +26,8 @@ public class PowerUps : MonoBehaviour
         {
             originalShip = other.gameObject;
             ActivatePowerup();
+            
+            Destroy(gameObject);
         }
     }
 
@@ -50,21 +53,21 @@ public class PowerUps : MonoBehaviour
     {
         Debug.Log("Activating power-up!");
 
-        // Store the original ship's position and rotation
+       
         Vector3 shipPosition = originalShip.transform.position;
         Quaternion shipRotation = originalShip.transform.rotation;
 
-        // Get the original ship's velocity
+     
         Rigidbody originalRb = originalShip.GetComponent<Rigidbody>();
         Vector3 currentVelocity = originalRb ? originalRb.linearVelocity : Vector3.zero;
 
-        // Deactivate the original ship
+        
         originalShip.SetActive(false);
 
-        // Spawn the transformed ship at the original ship's position
+       
         currentShip = Instantiate(transformedShipPrefab, shipPosition, shipRotation);
 
-        // Transfer velocity to the new ship
+       
         Rigidbody newRb = currentShip.GetComponent<Rigidbody>();
         if (newRb && originalRb)
         {
@@ -77,12 +80,16 @@ public class PowerUps : MonoBehaviour
 
         if (transformEffect != null)
         {
-            Instantiate(transformEffect, shipPosition, Quaternion.identity);
+           
+            ParticleSystem effect = Instantiate(transformEffect, shipPosition, Quaternion.identity);
+          
+            Destroy(effect.gameObject, effect.main.duration);
         }
 
         if (audioSource && transformSound)
         {
-            audioSource.PlayOneShot(transformSound);
+            
+            AudioSource.PlayClipAtPoint(transformSound, shipPosition);
         }
     }
 
@@ -90,23 +97,23 @@ public class PowerUps : MonoBehaviour
     {
         if (currentShip != null)
         {
-            // Store the transformed ship's position and rotation
+           
             Vector3 transformedPosition = currentShip.transform.position;
             Quaternion transformedRotation = currentShip.transform.rotation;
 
-            // Get the transformed ship's velocity
+           
             Rigidbody transformedRb = currentShip.GetComponent<Rigidbody>();
             Vector3 currentVelocity = transformedRb ? transformedRb.linearVelocity : Vector3.zero;
 
-            // Destroy the transformed ship
+           
             Destroy(currentShip);
 
-            // Reactivate the original ship at the transformed ship's position
+            
             originalShip.transform.position = transformedPosition;
             originalShip.transform.rotation = transformedRotation;
             originalShip.SetActive(true);
 
-            // Transfer velocity back to the original ship
+          
             Rigidbody originalRb = originalShip.GetComponent<Rigidbody>();
             if (originalRb && transformedRb)
             {
@@ -116,9 +123,10 @@ public class PowerUps : MonoBehaviour
 
         isPoweredUp = false;
 
-        if (audioSource && revertSound)
+        if (revertSound)
         {
-            audioSource.PlayOneShot(revertSound);
+           
+            AudioSource.PlayClipAtPoint(revertSound, originalShip.transform.position);
         }
     }
 }
