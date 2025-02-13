@@ -1,8 +1,29 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
+using System.Collections.Generic;
 
 public class Boss : MonoBehaviour
 {
+
+    [System.Serializable]
+    public class PhaseSettings
+    {
+        public int maxAsteroids;
+        public int immovableAsteroidHP;
+        public float asteroidSpeed;
+        public int projectileCount;
+        public float projectileSpeed;
+    }
+
+    [Header("Phase Settings")]
+    [SerializeField] private PhaseSettings[] phaseSettings;
+
+    [Header("boss Shooting Settings")]
+[SerializeField] private float bulletSpeed = 10f;
+[SerializeField] private float shootDelay = 1.5f;
+
+
     [Header("Boss Settings")]
     [SerializeField] private int maxHP = 1000;
     [SerializeField] private Slider hpBar;
@@ -16,15 +37,22 @@ public class Boss : MonoBehaviour
     private int phase = 1;
     private float nextShootTime;
     private float nextHomingMissileTime;
+    
+    public PhaseSettings GetCurrentPhaseSettings()
+    {
+        return phaseSettings[phase - 1];
+    }
+    private List<ImmovableAsteroid> immovableAsteroids = new List<ImmovableAsteroid>();
+
 
     private void Start()
     {
         currentHP = maxHP;
         UpdateHPBar();
-
-        // Spawn immovable asteroids for the first phase
         SpawnImmovableAsteroids(2);
+        SetHPBarVisibility(false); // Hide HP bar at start
     }
+
 
     private void Update()
     {
@@ -43,66 +71,143 @@ public class Boss : MonoBehaviour
 
     private void SpawnImmovableAsteroids(int count)
     {
+        if (immovableAsteroidPrefab == null) return;
         for (int i = 0; i < count; i++)
         {
             Vector3 spawnPosition = GetRandomPositionAroundBoss();
             GameObject asteroid = Instantiate(immovableAsteroidPrefab, spawnPosition, Quaternion.identity);
-            asteroid.GetComponent<ImmovableAsteroid>().SetBoss(this);
+            ImmovableAsteroid asteroidComponent = asteroid.GetComponent<ImmovableAsteroid>();
+            if (asteroidComponent != null)
+            {
+                asteroidComponent.SetBoss(this);
+                immovableAsteroids.Add(asteroidComponent);
+            }
         }
     }
 
+
+
     private Vector3 GetRandomPositionAroundBoss()
     {
-        float angle = Random.Range(0f, 360f);
-        float distance = Random.Range(5f, 10f);
+        float angle = Random.Range(0f, 360f) * Mathf.Deg2Rad;
+        float distance = Random.Range(8f, 15f); // Increased the range
         return transform.position + new Vector3(Mathf.Cos(angle), 0f, Mathf.Sin(angle)) * distance;
     }
 
+
     private void ShootProjectiles()
     {
-        int projectileCount = phase; // 1, 2, or 3 projectiles based on phase
+        int projectileCount = phaseSettings[phase - 1].projectileCount;
         float angleStep = 360f / projectileCount;
-
         for (int i = 0; i < projectileCount; i++)
         {
             float angle = i * angleStep;
             Vector3 direction = new Vector3(Mathf.Cos(angle * Mathf.Deg2Rad), 0f, Mathf.Sin(angle * Mathf.Deg2Rad));
-            Instantiate(projectilePrefab, transform.position, Quaternion.LookRotation(direction));
+            GameObject projectile = Instantiate(projectilePrefab, transform.position, Quaternion.LookRotation(direction));
+            Rigidbody rb = projectile.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.linearVelocity = direction * phaseSettings[phase - 1].projectileSpeed;
+            }
         }
     }
 
+    private IEnumerator ShootProjectilesCoroutine()
+    {
+        int projectileCount = phase;
+        float angleStep = 360f / projectileCount;
+        for (int i = 0; i < projectileCount; i++)
+        {
+            float angle = i * angleStep;
+            Vector3 direction = new Vector3(Mathf.Cos(angle * Mathf.Deg2Rad), 0f, Mathf.Sin(angle * Mathf.Deg2Rad));
+            GameObject projectile = Instantiate(projectilePrefab, transform.position, Quaternion.LookRotation(direction));
+
+            Rigidbody rb = projectile.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.linearVelocity = direction * bulletSpeed;
+            }
+
+            yield return new WaitForSeconds(shootDelay);
+        }
+    }
+
+    private IEnumerator ShootSpiralPattern()
+    {
+        float angle = 0f;
+        for (int i = 0; i < 50; i++)
+        {
+            Vector3 direction = new Vector3(Mathf.Cos(angle * Mathf.Deg2Rad), 0f, Mathf.Sin(angle * Mathf.Deg2Rad));
+            GameObject projectile = Instantiate(projectilePrefab, transform.position, Quaternion.LookRotation(direction));
+
+            Rigidbody rb = projectile.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.linearVelocity = direction * 8f;
+            }
+
+            angle += 20f;
+            yield return new WaitForSeconds(0.05f);
+        }
+    }
+
+
+
     private void ShootHomingMissile()
     {
-        GameObject missile = Instantiate(homingMissilePrefab, transform.position, Quaternion.identity);
-        missile.GetComponent<HomingMissile>().SetTarget(FindObjectOfType<Player>().transform);
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+        {
+            GameObject missile = Instantiate(homingMissilePrefab, transform.position, Quaternion.identity);
+            HomingMissile homingMissile = missile.GetComponent<HomingMissile>();
+            if (homingMissile != null)
+            {
+                homingMissile.SetTarget(player.transform);
+                homingMissile.SetAsteroidInteraction(true);
+            }
+        }
     }
+
 
     public void TakeDamage(int damage)
     {
+        if (immovableAsteroids.Count > 0)
+        {
+            // Boss is invulnerable while immovable asteroids exist
+            return;
+        }
+
+        // Only apply damage if there are no immovable asteroids
         currentHP -= damage;
         UpdateHPBar();
 
         if (currentHP <= 0)
         {
             Die();
+            return;
         }
-        else if (currentHP <= maxHP * 0.33f && phase == 3)
+
+        // Check for phase transitions
+        if (currentHP <= maxHP * 0.33f && phase < 3)
         {
-            // Already in phase 3, do nothing
-        }
-        else if (currentHP <= maxHP * 0.66f && phase == 2)
-        {
-            // Transition to phase 3
             phase = 3;
             SpawnImmovableAsteroids(4);
         }
-        else if (currentHP <= maxHP * 0.33f && phase == 1)
+        else if (currentHP <= maxHP * 0.66f && phase < 2)
         {
-            // Transition to phase 2
             phase = 2;
             SpawnImmovableAsteroids(3);
         }
     }
+
+    private void SetHPBarVisibility(bool isVisible)
+    {
+        if (hpBar != null)
+        {
+            hpBar.gameObject.SetActive(isVisible);
+        }
+    }
+
 
     private void UpdateHPBar()
     {
@@ -112,24 +217,28 @@ public class Boss : MonoBehaviour
         }
     }
 
+    public void RemoveImmovableAsteroid(ImmovableAsteroid asteroid)
+    {
+        immovableAsteroids.Remove(asteroid);
+    }
+
+
     private void Die()
     {
-        Debug.Log("Boss Defeated!");
-        Destroy(gameObject);
-
-
-         void OnCollisionEnter(Collision collision)
+        if (GameManager.Instance != null)
         {
-            if (collision.gameObject.CompareTag("Player"))
-            {
+            GameManager.Instance.OnBossDefeated();
+        }
+        SetHPBarVisibility(false); // Hide HP bar when boss is defeated
+        Destroy(gameObject);
+    }
 
-                Destroy(gameObject);
-            }
-            else if (collision.gameObject.CompareTag("Bullet"))
-            {
 
-                Destroy(gameObject);
-            }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Bullet"))
+        {
+            TakeDamage(10);
         }
     }
 }

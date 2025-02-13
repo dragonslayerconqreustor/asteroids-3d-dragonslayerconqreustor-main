@@ -1,20 +1,19 @@
 using UnityEngine;
 using System.Collections.Generic;
-using System.Collections;
 using TMPro;
 using UnityEngine.SceneManagement;
+using System.Collections;
+
 public class GameManager : MonoBehaviour
 {
-
     [Header("Boss Settings")]
     [SerializeField] private GameObject bossPrefab;
     private bool bossSpawned = false;
+    private bool bossDefeated = false;
 
-
-    [Header("uiscore Settings")]
+    [Header("UI Score Settings")]
     [SerializeField] private TextMeshProUGUI scoreText;
     private int score = 0;
-
 
     [Header("Player Settings")]
     [SerializeField] private int playerLives = 3;
@@ -23,39 +22,74 @@ public class GameManager : MonoBehaviour
     private GameObject currentPlayer;
     private bool isPlayerImmune = false;
 
-
     [Header("Asteroid Settings")]
     [SerializeField] private GameObject[] asteroidPrefabs;
     [SerializeField] private int startingAsteroids = 3;
     [SerializeField] private float minSpawnDistance = 5f;
     [SerializeField] private float spawnRadius = 20f;
 
-
     private List<GameObject> spawnedAsteroids = new List<GameObject>();
     private int currentRound = 1;
 
+    public static GameManager Instance { get; private set; }
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
+    private void SpawnBoss()
+    {
+        GameObject[] asteroids = GameObject.FindGameObjectsWithTag("Asteroid");
+        foreach (GameObject asteroid in asteroids)
+        {
+            if (asteroid.GetComponent<Boss>() == null)
+            {
+                Destroy(asteroid);
+            }
+        }
+
+        GameObject boss = Instantiate(bossPrefab, Vector3.zero, Quaternion.identity);
+        bossSpawned = true;
+        bossDefeated = false;
+
+        // Disable all asteroid spawners
+        AsteroidSpawner[] spawners = FindObjectsOfType<AsteroidSpawner>();
+        foreach (AsteroidSpawner spawner in spawners)
+        {
+            spawner.SetSpawningEnabled(false);
+        }
+    }
+    public void OnBossDefeated()
+    {
+        bossDefeated = true;
+        bossSpawned = false;
+
+        AsteroidSpawner[] spawners = FindObjectsOfType<AsteroidSpawner>();
+        foreach (AsteroidSpawner spawner in spawners)
+        {
+            spawner.SetSpawningEnabled(true);
+        }
+    }
+
     private void Start()
     {
-        
         UpdateLivesUI();
         SpawnPlayer();
-      
     }
+
     private void Update()
     {
         if (playerLives == 0)
-        { SceneManager.LoadScene("gameover"); }
+        {
+            SceneManager.LoadScene("gameover");
+        }
     }
 
     public void ReportPlayerHit()
     {
-        if (isPlayerImmune)
-        {
-            Debug.Log("Player is immune, ignoring hit.");
-            return;
-        }
+        if (isPlayerImmune) return;
 
-        Debug.Log("Player hit! Removing one life.");
         playerLives--;
         UpdateLivesUI();
 
@@ -83,20 +117,16 @@ public class GameManager : MonoBehaviour
     {
         isPlayerImmune = true;
 
-       
         if (currentPlayer != null)
         {
             Destroy(currentPlayer);
         }
 
-   
         yield return new WaitForSeconds(1f);
 
-  
         Vector3 safePosition = FindSafePosition();
         currentPlayer = Instantiate(playerPrefab, safePosition, Quaternion.identity);
 
-       
         StartCoroutine(PlayerImmunityCoroutine());
     }
 
@@ -132,13 +162,10 @@ public class GameManager : MonoBehaviour
         return true;
     }
 
-    // In GameManager.cs
     private IEnumerator PlayerImmunityCoroutine()
     {
-        Debug.Log("Player is now immune.");
         yield return new WaitForSeconds(2f);
         isPlayerImmune = false;
-        Debug.Log("Player is no longer immune.");
     }
 
     private void UpdateLivesUI()
@@ -151,16 +178,12 @@ public class GameManager : MonoBehaviour
 
     private void GameOver()
     {
-        Debug.Log("Game Over!");
-      
+        SceneManager.LoadScene("gameover");
     }
-
-
 
     public void AddScore(int points)
     {
         score += points;
-        Debug.Log($"Score: {score}");
         UpdateScoreUI();
 
         if (score >= 10000 && !bossSpawned)
@@ -168,12 +191,6 @@ public class GameManager : MonoBehaviour
             SpawnBoss();
             bossSpawned = true;
         }
-    
-}
-    private void SpawnBoss()
-    {
-        Debug.Log("Spawning Boss!");
-        Instantiate(bossPrefab, Vector3.zero, Quaternion.identity);
     }
 
     private void UpdateScoreUI()
@@ -184,18 +201,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
-   
-       
-    
-public void restart()
-{
-        {
-            SceneManager.LoadScene("Main");
-        }
+    public void Restart()
+    {
+        SceneManager.LoadScene("Main");
     }
+
     public void QuitGame()
     {
         Application.Quit();
-        Debug.Log("Quit");
     }
 }
