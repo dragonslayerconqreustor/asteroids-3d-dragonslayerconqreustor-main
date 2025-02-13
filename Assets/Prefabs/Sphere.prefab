@@ -123,7 +123,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transformedShipPrefab: {fileID: 1420376330586358970, guid: 742c99f70d26ce7479263045342983c1, type: 3}
-  powerupDuration: 6
+  powerupDuration: 10
   cooldownTime: 15
   transformEffect: {fileID: 0}
   transformSound: {fileID: 8300000, guid: 578f78cc6c712584bbdfc2d42c9bcd9b, type: 3}

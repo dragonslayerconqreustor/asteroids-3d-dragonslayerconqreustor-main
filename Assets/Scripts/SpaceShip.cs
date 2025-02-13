@@ -8,7 +8,7 @@ public class SpaceShip : MonoBehaviour
     public float rotationSpeed = 100f;
     [SerializeField] GameObject[] shootingPoints;
     [SerializeField] GameObject bulletPrefab;
-   
+
 
     [SerializeField] float healthpoints;
     [SerializeField] int bulletsPerShot = 1;  // How many bullets per shot
@@ -54,7 +54,7 @@ public class SpaceShip : MonoBehaviour
             {
                 for (int i = 0; i < bulletsPerShot; i++)
                 {
-                
+
 
                     GameObject bullet = Instantiate(bulletPrefab, shootPoint.transform.position,
     shootPoint.transform.rotation * Quaternion.Euler(0, 180, 0));
@@ -69,5 +69,16 @@ public class SpaceShip : MonoBehaviour
         }
 
 
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Asteroid"))
+        {
+            GameManager gameManager = FindObjectOfType<GameManager>();
+            if (gameManager != null)
+            {
+                gameManager.ReportPlayerHit();
+            }
+        }
     }
 }

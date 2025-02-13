@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ScreenWrapper : MonoBehaviour
 {
-    // Define game boundaries
+   
     [SerializeField] private float minX = -41f;
     [SerializeField] private float maxX = 45f;
     [SerializeField] private float minZ = -25f;

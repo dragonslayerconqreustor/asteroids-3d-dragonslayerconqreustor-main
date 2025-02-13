@@ -14,11 +14,26 @@ public class PowerUps : MonoBehaviour
 
     private GameObject originalShip;
     private GameObject currentShip;
+    private static PowerUps instance;
 
     private bool isPoweredUp = false;
     private float powerupEndTime = 0f;
     private float cooldownEndTime = 0f;
     private AudioSource audioSource;
+
+    private void Awake()
+    {
+        // Ensure only one instance exists
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -26,8 +41,10 @@ public class PowerUps : MonoBehaviour
         {
             originalShip = other.gameObject;
             ActivatePowerup();
-            
-            Destroy(gameObject);
+
+            // Only destroy the visual part of the power-up
+            Destroy(GetComponent<Renderer>());
+            Destroy(GetComponent<Collider>());
         }
     }
 
@@ -53,21 +70,16 @@ public class PowerUps : MonoBehaviour
     {
         Debug.Log("Activating power-up!");
 
-       
         Vector3 shipPosition = originalShip.transform.position;
         Quaternion shipRotation = originalShip.transform.rotation;
 
-     
         Rigidbody originalRb = originalShip.GetComponent<Rigidbody>();
         Vector3 currentVelocity = originalRb ? originalRb.linearVelocity : Vector3.zero;
 
-        
         originalShip.SetActive(false);
 
-       
         currentShip = Instantiate(transformedShipPrefab, shipPosition, shipRotation);
 
-       
         Rigidbody newRb = currentShip.GetComponent<Rigidbody>();
         if (newRb && originalRb)
         {
@@ -80,15 +92,12 @@ public class PowerUps : MonoBehaviour
 
         if (transformEffect != null)
         {
-           
             ParticleSystem effect = Instantiate(transformEffect, shipPosition, Quaternion.identity);
-          
             Destroy(effect.gameObject, effect.main.duration);
         }
 
         if (audioSource && transformSound)
         {
-            
             AudioSource.PlayClipAtPoint(transformSound, shipPosition);
         }
     }
@@ -97,23 +106,18 @@ public class PowerUps : MonoBehaviour
     {
         if (currentShip != null)
         {
-           
             Vector3 transformedPosition = currentShip.transform.position;
             Quaternion transformedRotation = currentShip.transform.rotation;
 
-           
             Rigidbody transformedRb = currentShip.GetComponent<Rigidbody>();
             Vector3 currentVelocity = transformedRb ? transformedRb.linearVelocity : Vector3.zero;
 
-           
             Destroy(currentShip);
 
-            
             originalShip.transform.position = transformedPosition;
             originalShip.transform.rotation = transformedRotation;
             originalShip.SetActive(true);
 
-          
             Rigidbody originalRb = originalShip.GetComponent<Rigidbody>();
             if (originalRb && transformedRb)
             {
@@ -125,8 +129,10 @@ public class PowerUps : MonoBehaviour
 
         if (revertSound)
         {
-           
             AudioSource.PlayClipAtPoint(revertSound, originalShip.transform.position);
         }
+
+        // Clean up the power-up object after reverting
+        Destroy(gameObject);
     }
 }

@@ -8,17 +8,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -2877070041077613550, guid: b294d50073dafd84fb584905feb7e366, type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2447526174291803422, guid: b294d50073dafd84fb584905feb7e366, type: 3}
       propertyPath: health
-      value: 50
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 2447526174291803422, guid: b294d50073dafd84fb584905feb7e366, type: 3}
       propertyPath: maxSpeed
-      value: 8
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 2447526174291803422, guid: b294d50073dafd84fb584905feb7e366, type: 3}
       propertyPath: minSpeed
-      value: 4
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8152310938888804792, guid: b294d50073dafd84fb584905feb7e366, type: 3}
       propertyPath: m_LocalPosition.x
@@ -63,6 +67,10 @@ PrefabInstance:
     - target: {fileID: 8820584882897928962, guid: b294d50073dafd84fb584905feb7e366, type: 3}
       propertyPath: m_Name
       value: Asteroid_2b Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 9048569658168999203, guid: b294d50073dafd84fb584905feb7e366, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

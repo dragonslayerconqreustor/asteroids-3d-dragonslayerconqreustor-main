@@ -33,6 +33,10 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 1452968626355657476, guid: 742c99f70d26ce7479263045342983c1, type: 3}
+      propertyPath: m_Volume
+      value: 0.084
+      objectReference: {fileID: 0}
+    - target: {fileID: 1452968626355657476, guid: 742c99f70d26ce7479263045342983c1, type: 3}
       propertyPath: m_Resource
       value: 
       objectReference: {fileID: 8300000, guid: a62d804f98f41d9428c3576652999754, type: 3}

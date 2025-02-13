@@ -50,6 +50,8 @@ public class Asteroid : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+  
+        
         if (collision.gameObject.CompareTag("Bullet"))
         {
             health -= 25f;
@@ -64,12 +66,19 @@ public class Asteroid : MonoBehaviour
 
     private void DestroyAsteroid()
     {
+        // Verhoog de score wanneer een asteroïde wordt vernietigd
+        GameManager gameManager = FindObjectOfType<GameManager>();
+        if (gameManager != null)
+        {
+            gameManager.AddScore(100); 
+            // Voeg 100 punten toe voor elke vernietigde asteroïde
+        }
+
         if (destructionEffectPrefab != null)
         {
             ParticleSystem effect = Instantiate(destructionEffectPrefab, transform.position, Quaternion.identity)
                 .GetComponent<ParticleSystem>();
 
-            // Destroy the effect after it's finished playing
             Destroy(effect.gameObject, effect.main.duration + effect.main.startLifetime.constantMax);
         }
 

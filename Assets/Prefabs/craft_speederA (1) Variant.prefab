@@ -18,7 +18,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10327500825677548, guid: 7c188d28311afb94d8c8a0bd6cc90f2f, type: 3}
       propertyPath: bulletsPerShot
-      value: 24
+      value: 48
       objectReference: {fileID: 0}
     - target: {fileID: 10327500825677548, guid: 7c188d28311afb94d8c8a0bd6cc90f2f, type: 3}
       propertyPath: shootingPoints.Array.size
@@ -75,6 +75,10 @@ PrefabInstance:
     - target: {fileID: 6532975573205590730, guid: 7c188d28311afb94d8c8a0bd6cc90f2f, type: 3}
       propertyPath: m_Name
       value: craft_speederA (1) Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 6716557339852766580, guid: 7c188d28311afb94d8c8a0bd6cc90f2f, type: 3}
+      propertyPath: m_Volume
+      value: 0.092
       objectReference: {fileID: 0}
     - target: {fileID: 6716557339852766580, guid: 7c188d28311afb94d8c8a0bd6cc90f2f, type: 3}
       propertyPath: m_Resource

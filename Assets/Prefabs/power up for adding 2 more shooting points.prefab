@@ -147,7 +147,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 4bea0e37277394e41b4cd709810c1064, type: 3}
       propertyPath: m_TagString
-      value: Untagged
+      value: Player
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -244,7 +244,7 @@ AudioSource:
   m_audioClip: {fileID: 8300000, guid: b1f15a4862ff28c4eaace457bf975658, type: 3}
   m_Resource: {fileID: 8300000, guid: b1f15a4862ff28c4eaace457bf975658, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.088
   m_Pitch: 1
   Loop: 0
   Mute: 0
