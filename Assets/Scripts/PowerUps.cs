@@ -1,7 +1,9 @@
 using UnityEngine;
 
 public class PowerUps : MonoBehaviour
+
 {
+
     [Header("Power-up Settings")]
     [SerializeField] private GameObject transformedShipPrefab;
     [SerializeField] private float powerupDuration = 10f;
@@ -12,28 +14,18 @@ public class PowerUps : MonoBehaviour
     [SerializeField] private AudioClip transformSound;
     [SerializeField] private AudioClip revertSound;
 
-    private GameObject originalShip;
-    private GameObject currentShip;
-    private static PowerUps instance;
+    public GameObject originalShip;
+    public GameObject currentShip;
 
-    private bool isPoweredUp = false;
+
+    public bool isPoweredUp = false;
     private float powerupEndTime = 0f;
     private float cooldownEndTime = 0f;
     private AudioSource audioSource;
 
-    private void Awake()
-    {
-        // Ensure only one instance exists
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
+
+
+
 
     private void OnTriggerEnter(Collider other)
     {
@@ -50,7 +42,7 @@ public class PowerUps : MonoBehaviour
 
     private void Start()
     {
-        originalShip = FindFirstObjectByType<SpaceShip>().gameObject;
+
         audioSource = GetComponent<AudioSource>();
     }
 
@@ -68,7 +60,7 @@ public class PowerUps : MonoBehaviour
 
     private void ActivatePowerup()
     {
-        Debug.Log("Activating power-up!");
+        
 
         Vector3 shipPosition = originalShip.transform.position;
         Quaternion shipRotation = originalShip.transform.rotation;
@@ -102,7 +94,7 @@ public class PowerUps : MonoBehaviour
         }
     }
 
-    private void RevertShip()
+    public void RevertShip()
     {
         if (currentShip != null)
         {
@@ -113,26 +105,29 @@ public class PowerUps : MonoBehaviour
             Vector3 currentVelocity = transformedRb ? transformedRb.linearVelocity : Vector3.zero;
 
             Destroy(currentShip);
+            currentShip = null;
 
-            originalShip.transform.position = transformedPosition;
-            originalShip.transform.rotation = transformedRotation;
-            originalShip.SetActive(true);
-
-            Rigidbody originalRb = originalShip.GetComponent<Rigidbody>();
-            if (originalRb && transformedRb)
+            // Only activate the original ship if it still exists
+            if (originalShip != null)
             {
-                originalRb.linearVelocity = currentVelocity;
+                originalShip.transform.position = transformedPosition;
+                originalShip.transform.rotation = transformedRotation;
+                originalShip.SetActive(true);
+
+                Rigidbody originalRb = originalShip.GetComponent<Rigidbody>();
+                if (originalRb && transformedRb)
+                {
+                    originalRb.linearVelocity = currentVelocity;
+                }
+
+                if (revertSound)
+                {
+                    AudioSource.PlayClipAtPoint(revertSound, originalShip.transform.position);
+                }
             }
         }
 
         isPoweredUp = false;
-
-        if (revertSound)
-        {
-            AudioSource.PlayClipAtPoint(revertSound, originalShip.transform.position);
-        }
-
-        // Clean up the power-up object after reverting
         Destroy(gameObject);
     }
 }

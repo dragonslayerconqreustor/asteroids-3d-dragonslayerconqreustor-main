@@ -49,6 +49,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2128889289699330583, guid: 29364f61697782647ace1cf940e13d27, type: 3}
+      propertyPath: currentShip
+      value: 
+      objectReference: {fileID: 1109400659620468473, guid: 629bf7ae2a7bb7744a6f1702ecb7e9b7, type: 3}
+    - target: {fileID: 2128889289699330583, guid: 29364f61697782647ace1cf940e13d27, type: 3}
+      propertyPath: originalShip
+      value: 
+      objectReference: {fileID: 6532975573205590730, guid: 7b5a4d5f28e7f3e4e82ea57d7562cc91, type: 3}
+    - target: {fileID: 2128889289699330583, guid: 29364f61697782647ace1cf940e13d27, type: 3}
       propertyPath: powerupDuration
       value: 10
       objectReference: {fileID: 0}

@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8397063771198717611}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: GameObject (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +40,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1286184484398554710}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -71,7 +71,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6722964448061494575}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: GameObject (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -146,6 +146,10 @@ PrefabInstance:
       value: power up for adding 2 more shooting points
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 4bea0e37277394e41b4cd709810c1064, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 4bea0e37277394e41b4cd709810c1064, type: 3}
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
@@ -174,6 +178,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 4bea0e37277394e41b4cd709810c1064, type: 3}
       insertIndex: -1
       addedObject: {fileID: -2603097702788709909}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 4bea0e37277394e41b4cd709810c1064, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -5710795401297977822}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 4bea0e37277394e41b4cd709810c1064, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 901033424270549255}
   m_SourcePrefab: {fileID: 100100000, guid: 4bea0e37277394e41b4cd709810c1064, type: 3}
 --- !u!1 &1420376330586358970 stripped
 GameObject:
@@ -189,23 +199,23 @@ Rigidbody:
   m_GameObject: {fileID: 1420376330586358970}
   serializedVersion: 4
   m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
+  m_Drag: 69
+  m_AngularDrag: 1
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 126
   m_CollisionDetection: 0
 --- !u!114 &5276893689680095388
 MonoBehaviour:
@@ -344,6 +354,42 @@ MonoBehaviour:
   maxX: 21
   minZ: -15
   maxZ: 13
+--- !u!114 &-5710795401297977822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1420376330586358970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2995202e4b85dba4896f040743c5595f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rb: {fileID: 3122096105608290658, guid: 3a1bff49c13bff447b4d89466f494f66, type: 3}
+  _speed: 10
+  target: {fileID: 1800841801939639808}
+--- !u!65 &901033424270549255
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1420376330586358970}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.9999999, y: 0.79999995, z: 2.1}
+  m_Center: {x: 0, y: 0.39999998, z: 0}
 --- !u!4 &1800841801939639808 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4bea0e37277394e41b4cd709810c1064, type: 3}

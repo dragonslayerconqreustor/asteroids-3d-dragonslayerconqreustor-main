@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1067107670512518693, guid: 742c99f70d26ce7479263045342983c1, type: 3}
+      propertyPath: m_ExcludeLayers.m_Bits
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1420376330586358970, guid: 742c99f70d26ce7479263045342983c1, type: 3}
       propertyPath: m_Name
       value: power up for adding 2 more shooting points Variant

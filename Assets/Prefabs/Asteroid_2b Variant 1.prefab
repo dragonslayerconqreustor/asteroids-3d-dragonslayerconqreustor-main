@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1860219647852612025, guid: b294d50073dafd84fb584905feb7e366, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 2447526174291803422, guid: b294d50073dafd84fb584905feb7e366, type: 3}
       propertyPath: health
       value: 250
@@ -21,36 +25,44 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2447526174291803422, guid: b294d50073dafd84fb584905feb7e366, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2447526174291803422, guid: b294d50073dafd84fb584905feb7e366, type: 3}
       propertyPath: rotationSpeed
       value: 31.2
       objectReference: {fileID: 0}
     - target: {fileID: 7238851142437698023, guid: b294d50073dafd84fb584905feb7e366, type: 3}
+      propertyPath: m_Constraints
+      value: 46
+      objectReference: {fileID: 0}
+    - target: {fileID: 7238851142437698023, guid: b294d50073dafd84fb584905feb7e366, type: 3}
       propertyPath: m_IsKinematic
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8152310938888804792, guid: b294d50073dafd84fb584905feb7e366, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.73507625
+      value: 0.882312
       objectReference: {fileID: 0}
     - target: {fileID: 8152310938888804792, guid: b294d50073dafd84fb584905feb7e366, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.73507625
+      value: 0.882312
       objectReference: {fileID: 0}
     - target: {fileID: 8152310938888804792, guid: b294d50073dafd84fb584905feb7e366, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.73507625
+      value: 0.882312
       objectReference: {fileID: 0}
     - target: {fileID: 8152310938888804792, guid: b294d50073dafd84fb584905feb7e366, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 0.004092
       objectReference: {fileID: 0}
     - target: {fileID: 8152310938888804792, guid: b294d50073dafd84fb584905feb7e366, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.0051703
       objectReference: {fileID: 0}
     - target: {fileID: 8152310938888804792, guid: b294d50073dafd84fb584905feb7e366, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -7.44
+      value: -7.4392
       objectReference: {fileID: 0}
     - target: {fileID: 8152310938888804792, guid: b294d50073dafd84fb584905feb7e366, type: 3}
       propertyPath: m_LocalRotation.w
@@ -84,7 +96,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: Asteroid_2b Variant 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 8820584882897928962, guid: b294d50073dafd84fb584905feb7e366, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 2447526174291803422, guid: b294d50073dafd84fb584905feb7e366, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -109,3 +126,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3a47f5cc8ddcd241b10987eb69b0c1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rotationSpeed: 30
+  destructionEffect: {fileID: 0}

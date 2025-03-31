@@ -19,7 +19,7 @@ public class AsteroidSpawner : MonoBehaviour
 
     private void Start()
     {
-        boss = FindObjectOfType<Boss>();
+        boss = FindFirstObjectByType<Boss>();
     }
 
 

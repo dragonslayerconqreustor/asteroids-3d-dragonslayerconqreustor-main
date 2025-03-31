@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class Asteroid : MonoBehaviour
 {
@@ -8,7 +9,7 @@ public class Asteroid : MonoBehaviour
     [SerializeField] private float rotationSpeed = 30f;
 
     [Header("Destruction Settings")]
-    [SerializeField] private float health = 100f;
+    [SerializeField] public float health = 25f;
     [SerializeField] private GameObject destructionEffectPrefab;
     [SerializeField] private AudioClip destructionSound;
 
@@ -50,28 +51,81 @@ public class Asteroid : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-  
-        
         if (collision.gameObject.CompareTag("Bullet"))
         {
-            health -= 25f;
-            Destroy(collision.gameObject);
-
-            if (health <= 0)
+            // Get the actual damage from the bullet
+            BulletBehavior bullet = collision.gameObject.GetComponent<BulletBehavior>();
+            if (bullet != null)
             {
-                DestroyAsteroid();
+                // Apply damage from the bullet
+                TakeDamage(bullet.GetDamage());
             }
+            else
+            {
+                // Fallback to default damage if BulletBehavior is not found
+                TakeDamage(25);
+            }
+
+            Destroy(collision.gameObject);
+        }
+    }
+
+    public void TakeDamage(int damage)
+    {
+        health -= damage;
+
+        if (health <= 0)
+        {
+            DestroyAsteroid();
         }
     }
 
     private void DestroyAsteroid()
     {
         // Verhoog de score wanneer een asteroïde wordt vernietigd
-        GameManager gameManager = FindObjectOfType<GameManager>();
-        if (gameManager != null)
+        GameManager gameManager = FindFirstObjectByType<GameManager>();
+        if (gameManager != null && gameManager.score <= 6500)
         {
-            gameManager.AddScore(100); 
-            // Voeg 100 punten toe voor elke vernietigde asteroïde
+            gameManager.AddScore(100);
+        }
+
+        if (gameManager != null && gameManager.score >= 6500 && gameManager.score <= 25000)
+        {
+            gameManager.AddScore(250);
+        }
+
+        if (gameManager != null && gameManager.score >= 25000 && gameManager.score <= 75000)
+        {
+            gameManager.AddScore(350);
+        }
+
+        if (gameManager != null && gameManager.score >= 75000 && gameManager.score <= 175000)
+        {
+            gameManager.AddScore(550);
+        }
+
+        if (gameManager != null && gameManager.score >= 175000 && gameManager.score <= 37500)
+        {
+            gameManager.AddScore(750);
+        }
+
+        if (gameManager != null && gameManager.score >= 37500 && gameManager.score <= 137500)
+        {
+            gameManager.AddScore(1250);
+        }
+
+        if (gameManager != null && gameManager.score >= 137500 && gameManager.score <= 637500)
+        {
+            gameManager.AddScore(2050);
+        }
+
+        if (gameManager != null && gameManager.score >= 1375000 && gameManager.score <= 63750000)
+        {
+            gameManager.AddScore(22500);
+        }
+        if (gameManager != null && gameManager.score >= 6375000 && gameManager.score <= 637500000)
+        {
+            gameManager.AddScore(52500);
         }
 
         if (destructionEffectPrefab != null)

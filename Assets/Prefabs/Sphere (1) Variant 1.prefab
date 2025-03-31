@@ -13,6 +13,10 @@ PrefabInstance:
       value: Sphere (1) Variant 1
       objectReference: {fileID: 0}
     - target: {fileID: 5415236318372963230, guid: 815c19def8f6bdb46b3ea7ad25757cd4, type: 3}
+      propertyPath: originalShip
+      value: 
+      objectReference: {fileID: 6532975573205590730, guid: 7b5a4d5f28e7f3e4e82ea57d7562cc91, type: 3}
+    - target: {fileID: 5415236318372963230, guid: 815c19def8f6bdb46b3ea7ad25757cd4, type: 3}
       propertyPath: powerupDuration
       value: 13
       objectReference: {fileID: 0}

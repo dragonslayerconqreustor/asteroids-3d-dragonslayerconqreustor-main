@@ -123,11 +123,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transformedShipPrefab: {fileID: 1420376330586358970, guid: 742c99f70d26ce7479263045342983c1, type: 3}
-  powerupDuration: 10
-  cooldownTime: 15
   transformEffect: {fileID: 0}
+  audioSource: {fileID: 0}
   transformSound: {fileID: 8300000, guid: 578f78cc6c712584bbdfc2d42c9bcd9b, type: 3}
   revertSound: {fileID: 8300000, guid: 578f78cc6c712584bbdfc2d42c9bcd9b, type: 3}
+  originalShip: {fileID: 6532975573205590730, guid: 7b5a4d5f28e7f3e4e82ea57d7562cc91, type: 3}
+  currentShip: {fileID: 1420376330586358970, guid: 742c99f70d26ce7479263045342983c1, type: 3}
+  isPoweredUp: 0
+  powerupDuration: 10
+  cooldownTime: 15
 --- !u!82 &2687362853136271253
 AudioSource:
   m_ObjectHideFlags: 0

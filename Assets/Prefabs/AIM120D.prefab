@@ -65,8 +65,16 @@ PrefabInstance:
       value: AIM120D
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ff51c04d4e77d564c8709741a45127e7, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: ff51c04d4e77d564c8709741a45127e7, type: 3}
       propertyPath: m_TagString
       value: Bullet
+      objectReference: {fileID: 0}
+    - target: {fileID: 8164078558771037576, guid: ff51c04d4e77d564c8709741a45127e7, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -81,9 +89,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ff51c04d4e77d564c8709741a45127e7, type: 3}
       insertIndex: -1
       addedObject: {fileID: 408320290819450337}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ff51c04d4e77d564c8709741a45127e7, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: -1651335499159328737}
   m_SourcePrefab: {fileID: 100100000, guid: ff51c04d4e77d564c8709741a45127e7, type: 3}
 --- !u!1 &7262054048229166870 stripped
 GameObject:
@@ -151,19 +156,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lifetime: 1.7
---- !u!114 &-1651335499159328737
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7262054048229166870}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f79184f8341ba342b53af5059efbefd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  minX: -21
-  maxX: 21
-  minZ: -15
-  maxZ: 13
+  damage: 10
+  explosionRadius: 0
+  hitEffectPrefab: {fileID: 7426447891314706651, guid: acf258e9d87466a4f9d08bbefa4324d9, type: 3}
+  hitSound: {fileID: 8300000, guid: a69321a86a79a794cb8afc06b16f40f1, type: 3}
+  type: 4
+  pierceCount: 2
+  homingForce: 45
+  detectionRadius: 20
+  maxRotationSpeed: 200
+  beamLength: 0
+  beamWidth: 0
+  beamColor: {r: 1, g: 0, b: 0, a: 1}

@@ -9,14 +9,14 @@ EditorBuildSettings:
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
-    path: Assets/Scenes/gameover.unity
-    guid: 52c533771ee655b479645177fcf5c48f
+    path: Assets/Scenes/start.unity
+    guid: 95a4803fa6976474a8be57bac4c2f103
   - enabled: 1
     path: Assets/Scenes/Main.unity
     guid: ab9b881d78b14eb45a16325f272c8b3d
   - enabled: 1
-    path: Assets/Scenes/start.unity
-    guid: 95a4803fa6976474a8be57bac4c2f103
+    path: Assets/Scenes/gameover.unity
+    guid: 52c533771ee655b479645177fcf5c48f
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

@@ -1,5 +1,7 @@
 using UnityEngine;
 
+
+
 public class PowerupSpawner : MonoBehaviour
 {
     [System.Serializable]
@@ -16,7 +18,7 @@ public class PowerupSpawner : MonoBehaviour
     [SerializeField] private int maxPowerups = 20;
     [SerializeField] private float spawnHeight = 0f;
 
-   
+
     private const float MIN_X = -17f;
     private const float MAX_X = 17f;
     private const float MIN_Z = -12f;
@@ -27,8 +29,9 @@ public class PowerupSpawner : MonoBehaviour
 
     private void Start()
     {
-        // Calculate total weights for probability distribution
+       ;
         CalculateTotalWeight();
+
     }
 
     private void CalculateTotalWeight()
@@ -39,14 +42,17 @@ public class PowerupSpawner : MonoBehaviour
             totalSpawnWeight += powerup.spawnWeight;
         }
     }
-
     private void Update()
     {
+       
         if (Time.time >= nextSpawnTime && GameObject.FindGameObjectsWithTag("Powerup").Length < maxPowerups)
         {
+            
             SpawnPowerup();
             nextSpawnTime = Time.time + spawnRate;
         }
+    
+    
     }
 
     private GameObject SelectRandomPowerup()
@@ -71,9 +77,10 @@ public class PowerupSpawner : MonoBehaviour
     {
         if (powerupTypes == null || powerupTypes.Length == 0)
         {
-            Debug.LogWarning("No powerup prefabs assigned to spawner!");
+            Debug.LogError("No powerup prefabs assigned to spawner!");
             return;
         }
+
 
         // Generate random position within the defined boundaries
         Vector3 spawnPosition = new Vector3(
@@ -85,7 +92,14 @@ public class PowerupSpawner : MonoBehaviour
         // Select random powerup based on weights
         GameObject selectedPrefab = SelectRandomPowerup();
 
-        // Spawn the powerup
-        Instantiate(selectedPrefab, spawnPosition, Quaternion.Euler(0f, Random.Range(0f, 360f), 0f));
+        if (selectedPrefab == null)  
+        {
+            Debug.LogError("Selected prefab is null!");
+            return;
+        }
+
+   
+        Instantiate(selectedPrefab, spawnPosition, Quaternion.Euler(90f, 0f, Random.Range(0f, 360f)));
+   
     }
 }
